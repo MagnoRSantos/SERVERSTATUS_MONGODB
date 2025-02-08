@@ -409,7 +409,6 @@ def main():
     ## iteracao por cada servidor da lista
     listServers = [item.strip(" '") for item in MONGO_HOST.split(",")]
     for server in listServers:
-        print(server)
         listServerStatus = serverStatusMongoDB(server)
 
         # insere na lista final
