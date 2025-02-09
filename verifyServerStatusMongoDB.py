@@ -165,26 +165,7 @@ def serverStatusMongoDB(v_MONGO_HOST):
             # Tipo de armazenamento usado - WiredTiger
             v_storageEngine = v_serverStatus["storageEngine"]["name"]
 
-            
-
-            listValuesServerStatus = '{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}'.\
-                format(
-                    v_host,
-                    v_version,
-                    v_collections, 
-                    v_views,
-                    v_defaultReadConcernLevel,
-                    v_defaultWriteConcernW,
-                    v_defaultWriteConcernWTIMEOUT,
-                    v_flowControl,
-                    v_flowControltargetRateLimit,
-                    v_indexStats,
-                    v_activeSessionsCount,
-                    v_replsetName,
-                    v_replhosts,
-                    v_storageEngine,
-                    obterDataHora()
-                )
+            #=======================================================
             
             # cria a lista auxiliar vazia
             listReturnMongoDBAux = []
