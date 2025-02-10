@@ -32,6 +32,28 @@ def obterDataHora():
     return datahora
 
 
+## funcao de mensagem inicial da aplicacao
+def msgInitialApp():
+    """
+    FUNCAO QUE IMPRIME E GRAVA EM LOG MSG INICIAL DA APLICACAO
+    """
+    datahora = obterDataHora()
+    msg = '***** List Info ServerStatus MongoDB ***** BEGIN: ' + datahora
+    print(msg)
+    gravaLog(msg, 'a')
+
+
+## funcao de mensagem final da aplicacao
+def msgFinalApp():
+    """
+    FUNCAO QUE IMPRIME E GRAVA EM LOG MSG FINAL DA APLICACAO
+    """
+    datahora = obterDataHora()
+    msg = '***** List Info ServerStatus MongoDB ***** END: ' + datahora + '\n'
+    print(msg)
+    gravaLog(msg, 'a')
+
+
 ## funcao para verificar os valores do dotenv
 def getValueEnv(valueEnv):
     """
@@ -373,10 +395,7 @@ def gravaDadosSqlite(v_listReturnMongoDB):
 ## funcao inicial
 def main():
     # grava inicio do log
-    datahora = obterDataHora()
-    msg = '***** List Info ServerStatus MongoDB ***** BEGIN: ' + datahora
-    print(msg)
-    gravaLog(msg, 'a')
+    msgInitialApp()
 
     ## remover logs antigos acima de xx dias
     diasRemover = 10
@@ -404,10 +423,7 @@ def main():
     print('\n',jsonData)
 
     # grava final do log
-    datahora = obterDataHora()
-    msg = '***** List Info ServerStatus MongoDB ***** END: ' + datahora + '\n'
-    print(msg)
-    gravaLog(msg, 'a')
+    msgFinalApp()
 
 #inicio da aplicacao
 if __name__ == "__main__":

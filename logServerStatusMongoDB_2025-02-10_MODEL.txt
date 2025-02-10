@@ -1,0 +1,59 @@
+***** List Info ServerStatus MongoDB ***** BEGIN: 2025-02-10 14:49:30
+Removendo logs acima de 10 dias.
+Executado a remoção de logs acima de 10 dias do diretório: [C:\Users\meu.nome\XXXXXXX\YYYYYYYYY\DBA\ETL\SERVERSTATUS_MONGODB\log]
+Quantidade de Registros Inseridos no SQlite3: 3 registro(s)
+[
+    {
+        "Host": "SRVMDB040",
+        "Version": "6.0.19",
+        "CollectionsQtde": 2829,
+        "ViewsQtde": 0,
+        "defaultReadConcernLevel": "local",
+        "defaultWriteConcernW": 1,
+        "defaultWriteConcernWTIMEOUT": 0,
+        "flowControl": true,
+        "flowControltargetRateLimit": 898,
+        "indexStatsQtde": 51411,
+        "activeSessionsCount": 21647,
+        "replsetName": "replsetPrd",
+        "replhosts": "['10.10.1.0:27017', '10.10.1.1:27017', '10.10.1.2:27017']",
+        "storageEngine": "wiredTiger",
+        "DataHora": "2025-02-10 14:49:31"
+    },
+    {
+        "Host": "SRVMDB041",
+        "Version": "6.0.19",
+        "CollectionsQtde": 2826,
+        "ViewsQtde": 0,
+        "defaultReadConcernLevel": "local",
+        "defaultWriteConcernW": 1,
+        "defaultWriteConcernWTIMEOUT": 0,
+        "flowControl": true,
+        "flowControltargetRateLimit": 8159,
+        "indexStatsQtde": 25702,
+        "activeSessionsCount": 1,
+        "replsetName": "replsetPrd",
+        "replhosts": "['10.10.1.0:27017', '10.10.1.1:27017', '10.10.1.2:27017']",
+        "storageEngine": "wiredTiger",
+        "DataHora": "2025-02-10 14:49:32"
+    },
+    {
+        "Host": "SRVMDB042",
+        "Version": "6.0.19",
+        "CollectionsQtde": 2826,
+        "ViewsQtde": 0,
+        "defaultReadConcernLevel": "local",
+        "defaultWriteConcernW": 1,
+        "defaultWriteConcernWTIMEOUT": 0,
+        "flowControl": true,
+        "flowControltargetRateLimit": 1000000000,
+        "indexStatsQtde": 51408,
+        "activeSessionsCount": 1,
+        "replsetName": "replsetPrd",
+        "replhosts": "['10.10.1.0:27017', '10.10.1.1:27017', '10.10.1.2:27017']",
+        "storageEngine": "wiredTiger",
+        "DataHora": "2025-02-10 14:49:34"
+    }
+]
+***** List Info ServerStatus MongoDB ***** END: 2025-02-10 14:49:34
+
