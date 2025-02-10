@@ -297,7 +297,7 @@ def create_tables(dbname_sqlite3):
 
 
 ## gera comandos de inserts conforme valores da lista passada
-def gravaDadosSqlite(v_listWebhook):
+def gravaDadosSqlite(v_listReturnMongoDB):
     """
     FUNCAO PARA GRAVAR OS DADOS OBTIDOS EM UM BANCO DE DADOS SQLITE
     """
@@ -349,7 +349,7 @@ def gravaDadosSqlite(v_listWebhook):
                 ) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """
-            for params in v_listWebhook:
+            for params in v_listReturnMongoDB:
                 print(params)
                 cursor.execute(sql_statement, params)
 
