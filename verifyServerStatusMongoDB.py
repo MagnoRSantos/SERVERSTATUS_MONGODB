@@ -6,6 +6,7 @@ import os, json
 import io
 import sqlite3
 import socket
+import pyodbc as po
 from pymongo import MongoClient
 from datetime import datetime
 
@@ -276,7 +277,7 @@ def create_tables(dbname_sqlite3):
             defaultWriteConcernW VARCHAR(15), 
             defaultWriteConcernWTIMEOUT INTEGER, 
             flowControl BIT, 
-            flowControltargetRateLimit INTEGER, 
+            flowControltargetRateLimit BIGINT, 
             indexStatsQtde INTEGER, 
             activeSessionsCount INTEGER, 
             replsetName VARCHAR(20),
@@ -390,7 +391,98 @@ def gravaDadosSqlite(v_listReturnMongoDB):
         RowCount = RowCountInsert - RowCountDelete
         msgLog = 'Quantidade de Registros Inseridos no SQlite3: {0} registro(s)'.format(RowCount)
         print(gravaLog(msgLog, 'a'))
+
+
+#### ENVIO DE DADOS AO AZURESQL DATABASE - BEGIN ####
+
+## funcao de formacao da connString Database de destino
+def strConnectionDatabaseDestino():
+    
+    #variaveis de conexao azuresql
+    server   = os.getenv("SERVER_TARGET_AZURESQL")
+    port     = os.getenv("PORT_TARGET_AZURESQL")
+    database = os.getenv("DATABASE_TARGET_AZURESQL")
+    username = os.getenv("USERNAME_TARGET_AZURESQL")
+    password = os.getenv("PASSWORD_TARGET_AZURESQL")
+
+    strConnection = 'DRIVER={{ODBC Driver 17 for SQL Server}};\
+        SERVER={v_server};\
+        PORT={v_port};\
+        DATABASE={v_database};\
+        UID={v_username};\
+        PWD={v_password}'.format(v_server = server, v_port = port, v_database = database, v_username = username, v_password = password)
+
+    return strConnection
+
+
+## Grava dados no destino
+def gravaDadosDestinoAzureSQL(v_listReturnMongoDB):
+
+    try:
+        ## Connection string
+        connString = str(strConnectionDatabaseDestino())
+        cnxn = po.connect(connString)
+        cnxn.autocommit = False
         
+        ## query de busca
+        cursor = cnxn.cursor()
+
+        sqlcmdDELETE = "DELETE FROM [dbo].[ServerStatusMongoDB];"
+        cursor.execute(sqlcmdDELETE)
+
+        ## sql statement INSERT
+        sqlcmd = '''
+            INSERT INTO [dbo].[ServerStatusMongoDB]
+            (   
+                [Host], 
+                [Version], 
+                [CollectionsQtde], 
+                [ViewsQtde], 
+                [defaultReadConcernLevel], 
+                [defaultWriteConcernW], 
+                [defaultWriteConcernWTIMEOUT], 
+                [flowControl], 
+                [flowControltargetRateLimit], 
+                [indexStatsQtde], 
+                [activeSessionsCount], 
+                [replsetName],
+                [replhosts], 
+                [storageEngine],
+                [dataHora]
+            ) 
+            VALUES 
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        '''
+       
+        RowCount = 0
+        for params in v_listReturnMongoDB:
+            cursor.execute(sqlcmd, params)
+            RowCount = RowCount + cursor.rowcount
+        
+
+    except Exception as e:
+        datahora = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        msgException = "Error: {0}".format(e)
+        msgLog = 'Fim inserção de dados no destino AzureSQL - [Erro]: {0}\n{1}'.format(datahora, msgException)
+        print(gravaLog(msgLog, 'a'))
+        enviaExceptionGChat(msgLog)
+        cnxn.rollback()
+
+    else:
+        cnxn.commit()
+        
+    finally:
+        ## Close the database connection
+        cursor.close()
+        del cursor
+        cnxn.close()
+        datahora = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        msgLog = 'Quantidade de Registros Inseridos no AzureSQL: {0}\n'.format(RowCount)
+        msgLog = '{0}Fim inserção de dados no destino AzureSQL - {1}'.format(msgLog, datahora)
+        print(gravaLog(msgLog, 'a'))
+
+#### ENVIO DE DADOS AO AZURESQL DATABASE - END ####
+
 
 ## funcao inicial
 def main():
@@ -417,6 +509,9 @@ def main():
 
     ## chama a funcao para gravar os dados no Sqlite
     gravaDadosSqlite(listReturnMongoDB)
+
+    ## chama a funcao para gravar os dados no AzureSql Database
+    gravaDadosDestinoAzureSQL(listReturnMongoDB)
 
     ## exibe os dados em formato Json
     jsonData = listToJson(listReturnMongoDB)
