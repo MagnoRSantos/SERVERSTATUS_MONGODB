@@ -21,3 +21,5 @@ No script eu obtenho os seguintes campos:
  - Hosts participantes do replicaset
  - Tipo de armazenamento usado - WiredTiger
 
+Abaixo exemplo dos dados obtidos e apresnetados em formato tabular pelo SQLite.
+![image](https://github.com/user-attachments/assets/d4fd6b64-0eca-4f29-9eae-c8f606fe8f50)
