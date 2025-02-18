@@ -477,7 +477,7 @@ def gravaDadosDestinoAzureSQL(v_listReturnMongoDB):
         del cursor
         cnxn.close()
         datahora = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        msgLog = 'Quantidade de Registros Inseridos no AzureSQL: {0}\n'.format(RowCount)
+        msgLog = 'Quantidade de Registros Inseridos no AzureSQL: {0} registro(s)\n'.format(RowCount)
         msgLog = '{0}Fim inserção de dados no destino AzureSQL - {1}'.format(msgLog, datahora)
         print(gravaLog(msgLog, 'a'))
 
