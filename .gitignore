@@ -4,3 +4,5 @@ log/
 .env.dev
 verifyServerStatusMongoDB - Copia.py
 *.pyc
+database_module.py
+logging_module.py
